@@ -1,0 +1,51 @@
+{%  extends 'cms/cms_base.html' %}
+{%  block title %}
+    个人信息
+{% endblock %}
+
+{% block page_title %}
+{#    从一个block中引用另外一个block中的信息，引用title中的内容#}
+    {{ self.title() }}
+{% endblock %}
+
+{% block main_content %}
+{#    将g.cms_user定义为新的名称，方便使用#}
+    {% set user = g.cms_user %}
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td>用户名：</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td>邮箱：</td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td>角色：</td>
+                <td>
+                    {% for role in user.roles %}
+{#                        运营、访问者；如果没有遍历到最后，就加个逗号，如果遍历到最后，就不加逗号#}
+                        {{ role.name }}
+                        {% if not loop.last %},{% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td>权限：</td>
+                <td>
+                    {% for role in user.roles %}
+                        {{ role.desc }}
+{#                        可以管理帖子，可以管理评论区，对于不同的权限用反斜杠/进行分割#}
+                        {% if not loop.last %}/{% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td>加入时间:</td>
+                <td>{{ user.join_time }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

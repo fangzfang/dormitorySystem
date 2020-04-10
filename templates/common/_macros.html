@@ -1,0 +1,4 @@
+{#定义一个宏，专门加载静态文件,前后加减号，去掉换行#}
+{% macro static(filename) -%}
+    {{ url_for('static', filename=filename) }}
+{%- endmacro %}
